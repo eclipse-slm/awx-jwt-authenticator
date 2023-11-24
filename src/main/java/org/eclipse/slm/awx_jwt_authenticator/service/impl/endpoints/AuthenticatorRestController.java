@@ -118,7 +118,7 @@ public class AuthenticatorRestController {
 
         String firstName = accessToken.getGivenName();
         String lastName = accessToken.getFamilyName();
-        String username = accessToken.getPreferredUsername();
+        String username = accessToken.getPreferredUsername() + "-JWT";
         String email = accessToken.getEmail();
         String id = accessToken.getId();
 
