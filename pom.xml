@@ -379,7 +379,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <useMavenSettingsForAuth>false</useMavenSettingsForAuth>
+                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
                     <repository>${docker.image.registry}/${docker.image.name}</repository>
                     <tag>${project.version}</tag>
                     <dockerfile>Dockerfile</dockerfile>
