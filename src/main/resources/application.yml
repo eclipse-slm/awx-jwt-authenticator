@@ -71,11 +71,11 @@ vault:
   host: localhostttt
   port: 8210
   authentication: APPROLE
-  token: s.t8H97SyHrPpHfLODxuIndeJ6
+  token: your-vault-token
   app-role:
       app-role-path: approle
       role-id: awx-jwt-authenticator
-      secret-id: ecefeb0e-0efe-a481-af52-6a136223614f
+      secret-id: your-app-role-secret-id
   kv-mount-path: awx_jwt_authenticator
 
 ### Consul
@@ -84,4 +84,4 @@ consul:
   host: localhost
   port: 8500
   datacenter: fabos
-  acl-token: lVGrgfK0EOqZHvGdm,QQ
+  acl-token: your-consul-token
