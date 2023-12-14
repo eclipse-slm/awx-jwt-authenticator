@@ -1,42 +1,87 @@
 server:
-    port: 8051
+  port: 8051
+
+deployment:
+  hostname: localhost
 
 spring:
-    application:
-        name: awx-jwt-authenticator
-    banner:
-        location: banner.txt
-    security:
-      user:
-          name: admin
-          password: password
+  application:
+    name: awx_jwt_authenticator
+  banner:
+    location: banner.txt
+  config:
+    import: "consul:"
+  cloud:
+    consul:
+      host: ${consul.host}
+      port: ${consul.port}
+      discovery:
+        enabled: true
+        acl-token: ${consul.acl-token}
+        register-health-check: true
+        hostname: ${deployment.hostname}
+        tags: slm, backend, ${spring.application.name}
+        service-name: ${spring.application.name}
+        metadata:
+          version: ${application.version}
+      config:
+        enabled: true
+        fail-fast: true
+        profileSeparator: '::'
+        format: YAML
+        acl-token: ${consul.acl-token}
+  security:
+    user:
+      name: admin
+      password: password
+
+management:
+  endpoints:
+    web.exposure.include: health,info
+  info:
+    git.enabled: false
 
 keycloak:
-    auth-server-url: http://localhost:7080/auth
-    realm: fabos
-    resource: awx-jwt-authenticator
-    credentials:
-        secret: e7d227a2-df94-4f05-bf26-0f7053f836ca
-    use-resource-role-mappings: false
-    bearer-only: true
+  config:
+    auth-white-list: /actuator/health
+    tenants:
+      config-path: consul:keycloak
+      client-registration-enable: false
+      client-update-enable: false
+      resolve-by-path: true
+      resolve-by-header: true
+      resolver-base-path: /
+      resolver-header: Realm
+      redirect-uris:
+      web-origins:
 
+### AWX
 awx:
-    host: localhost
-    scheme: http
-    port: 80
-    username: awx-jwt-authenticator
-    password: password
-    organization-name: Service Lifecycle Management
-    team-name: user
+  host: localhost
+  scheme: http
+  port: 8013
+  username: awx-jwt-authenticator
+  password: password
+  organization-name: Service Lifecycle Management
+  team-name: user
 
+### Vault
 vault:
-    scheme: http
-    host: localhost
-    port: 8200
-    authentication: APPROLE
-    token: s.t8H97SyHrPpHfLODxuIndeJ6
-    app-role:
-        app-role-path: approle
-        role-id: awx-jwt-authenticator
-        secret-id: ecefeb0e-0efe-a481-af52-6a136223614f
-    kv-mount-path: awx-jwt-authenticator
+  scheme: http
+  host: localhostttt
+  port: 8210
+  authentication: APPROLE
+  token: s.t8H97SyHrPpHfLODxuIndeJ6
+  app-role:
+      app-role-path: approle
+      role-id: awx-jwt-authenticator
+      secret-id: ecefeb0e-0efe-a481-af52-6a136223614f
+  kv-mount-path: awx_jwt_authenticator
+
+### Consul
+consul:
+  scheme: http
+  host: localhost
+  port: 8500
+  datacenter: fabos
+  acl-token: lVGrgfK0EOqZHvGdm,QQ
