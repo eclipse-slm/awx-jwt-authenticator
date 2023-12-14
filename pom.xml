@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <revision>1.0.0-RELEASE</revision>
+        <revision>1.1.0-SNAPSHOT</revision>
 
         <project.reporting.outputDirectory>${project.build}</project.reporting.outputDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
